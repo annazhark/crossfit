@@ -199,6 +199,7 @@
  body {
     font-family: var(--font-family-base);
     font-style: 16px;
+    font-weight: 300;
     line-height: 1.75;
     color: var(--color-light-grey);
     background-color: var(--color-dark);
@@ -220,11 +221,24 @@
     color: var(--color-light-grey);
  }
 
+ p {
+  margin-block: 0;
+ }
+
+ p:not([class]):not(:last-child) {
+  margin-bottom: 24px;
+ }
+
  .container {
-    min-width: calc(var(--container-width) + var(--container-padding-x) * 2);
+    max-width: calc(var(--container-width) + var(--container-padding-x) * 2);
     margin-inline: auto;
     padding-inline: var(--container-padding-x);
  }
+
+ .container-wide {
+  max-width: 1920px;
+  margin-inline: auto;
+}
 
  .visually-hidden {
     position: absolute;
@@ -248,11 +262,47 @@
     font-style: 12px;
     line-height: 2;
     letter-spacing: 1.2;
+    text-decoration: none;
     white-space: nowrap;
     text-transform: uppercase;
     background-color: var(--color-light);
     border-radius: var(--border-radius);
+    border: none;
  }
+
+ .title-medium {
+  font-size: clamp(20px, 2.08vw, 40px);
+  font-weight: 700;
+  line-height: 1.3;
+ }
+
+ .backdrop-title {
+  position: relative;
+  z-index: 2;
+}
+
+.backdrop-title::before {
+  content: '';
+  position: absolute;
+  right: calc(100% + 8px);
+  display: block;
+  width: 26px;
+  aspect-ratio: 1;
+  background: url(./icons/cross.svg) center/contain no-repeat;
+}
+
+.backdrop-title::after {
+  content: attr(data-title);
+  position: absolute;
+  z-index: -1;
+  top: -0.5em;
+  left: -0.6em;
+  color: transparent;
+  font-family: var(--font-family-accent);
+  font-size: 2.8em;
+  -webkit-text-stroke: 1px var(--color-light-grey);
+  text-stroke: 1px var(--color-light-grey);
+}
 
  .header-burger-button {
     display: inline-flex;
@@ -286,6 +336,31 @@
     background-color: var(--color-light-grey);
  }
 
+ .button.transparent {
+  position: relative;
+  height: var(--input-height);
+  padding-left: 32px;
+  padding-right: 80px;
+  background-color: transparent;
+  border: var(--border);
+ }
+
+ .button.transparent::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  height: 100%;
+  aspect-ratio: 1;
+  background: url('./icons/arrow-up.svg') center/70% no-repeat;
+  border: var(--border);
+  border-radius: 50%;
+ }
+
+ .button.transparent:hover {
+  color: var(--color-dark);
+  background-color: var(--color-dark-grey);
+ }
+
  h1,
  h2,
  h3,
@@ -294,6 +369,7 @@
  h6 {
     font-weight: 700;
     text-transform: uppercase;
+    color: var(--color-light);
  }
 
  .header {
@@ -341,7 +417,7 @@
     column-gap: 40px;
  }
 
-  /*Main*/
+  /*Banner*/
 
   .banner {
     display: flex;
@@ -416,7 +492,98 @@
 
   }
 
+  /*Motivation*/
+
+  .motivation-item:nth-child(even) {
+    background-color: var(--color-dark-alternate);
+  }
+
+  .motivation-item:nth-child(even) .motivation-card {
+    flex-direction: row-reverse;
+  }
+
+  .motivation-card {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    column-gap: clamp(30px, 10.42vw, 200px);
+
+  }
+
+  .motivation-card-image {
+    margin-block: -60px;
+  }
+
+  .motivation-card-body {
+    padding-left: 35px;
+  }
+
+  .motivation-card-desc {
+    max-width: 400px;
+  }
+
+  .motivation-card-title:not(:last-child) {
+    margin-bottom: 14px;
+  }
+
+  .motivation-card-desc:not(:last-child) {
+    margin-bottom: 37px;
+  }
+
+  /*Trainin-types*/
+
+  .training-types {
+    position: relative;
+    max-width: 1920px;
+    margin-inline: auto;
+    padding-top: 70px;
+    padding-bottom: 120px;
+    background-color: var(--color-dark);
+  }
+
+  .training-types-list {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 60px;
+  }
+
+
+  .training-types-item {
+    --trainingTypesBgIconSize: 80px;
+
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 32px;
+    padding-top: var(--trainingTypesBgIconSize);
+    background: url(./img/training-types/arrow7.svg) 100% 0/var(--trainingTypesBgIconSize) no-repeat;
+  }
+
+
+  .training-types-title {
+    font-size: 16px;
+    text-transform: uppercase;
+  }
+
+
+  
+
+ 
+
  /*MEDIA*/
+ @media (max-width: 1919px) {
+  .motivation-card-image {
+    margin-block: -20px;
+  }
+ }
+
+ @media (max-width: 1280px) {
+  .training-types-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+ }
 
  @media (max-width: 1024px) {
     .header {
@@ -443,6 +610,15 @@
     .banner {
         row-gap: 10px;
     }
+
+    .motivation-card {
+      padding-block: 50px;
+    }
+
+    .motivation-card-image {
+      max-width: 30%;
+      height: auto;
+      margin-block: 0;
 
  }
 
@@ -477,4 +653,40 @@
     .banner-info::before {
         margin-right: 10px;
     }
+
+    .motivation-card,
+    .motivation-item:nth-child(even) .motivation-card{
+      flex-direction: column-reverse;
     }
+
+    .motivation-card {
+      row-gap: 30px;
+      padding-block: 30px;
+
+    }
+
+    .motivation-card-image {
+      max-width: 60%;
+    }
+
+    .motivation-card-desc:not(:last-child) {
+      margin-bottom: 20px;
+    }
+
+    .training-types-list {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+    }
+
+    .training-types-item {
+      --trainingTypesBgIconSize: 50px;
+
+      row-gap: 15px;
+    }
+
+    .training-types-image {
+      max-width: 120px;
+      aspect-ratio: 1;
+    }
+ }
+}
